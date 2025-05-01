@@ -1,0 +1,130 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+}
+
+model User {
+  userId            Int              @id @default(autoincrement())
+  email             String           @unique
+  username          String           @unique
+  password          String?          @db.Text
+  googleId          String?          
+  profilePictureUrl String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  teams             TeamMember[]
+  attachments       Attachment[]
+  comments          Comment[]
+  assignedTasks     Task[]           @relation("TaskAssignee")
+  authoredTasks     Task[]           @relation("TaskAuthor")
+  taskAssignments   TaskAssignment[]
+}
+
+model Team {
+  id                   Int           @id @default(autoincrement())
+  teamName             String
+  members              TeamMember[]
+  projects  Project[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+model TeamMember {
+  id        Int   @id @default(autoincrement())
+  userId    Int
+  teamId    Int
+  role      String   
+  joinedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [userId])
+  team      Team     @relation(fields: [teamId], references: [id])
+
+  @@unique([userId, teamId])
+}
+
+model Project {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  startDate    DateTime?
+  endDate      DateTime?
+  status       String        @default("PLANNING")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  teamId       Int
+  team        Team     @relation(fields: [teamId], references: [id])
+  tasks        Task[]
+}
+
+model Task {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String?
+  status          String?
+  priority        String?
+  tags            String?
+  startDate       DateTime?
+  dueDate         DateTime?
+  points          Int?
+  projectId       Int
+  authorUserId    Int
+  assignedUserId  Int?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  attachments     Attachment[]
+  comments        Comment[]
+  assignee        User?            @relation("TaskAssignee", fields: [assignedUserId], references: [userId], onDelete: SetNull)
+  author          User             @relation("TaskAuthor", fields: [authorUserId], references: [userId], onDelete: Cascade)
+  project         Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskAssignments TaskAssignment[]
+  dependencies    TaskDependency[] @relation("DependentTask")
+  dependents      TaskDependency[] @relation("PrerequisiteTask")
+  degree          Int?
+  duration        Int?
+}
+
+model TaskDependency {
+  id                 Int      @id @default(autoincrement())
+  dependentTaskId    Int
+  prerequisiteTaskId Int
+  createdAt          DateTime @default(now())
+  dependentTask      Task     @relation("DependentTask", fields: [dependentTaskId], references: [id], onDelete: Cascade)
+  prerequisiteTask   Task     @relation("PrerequisiteTask", fields: [prerequisiteTaskId], references: [id], onDelete: Cascade)
+
+  @@unique([dependentTaskId, prerequisiteTaskId])
+}
+
+model TaskAssignment {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  taskId Int
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user   User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
+
+model Attachment {
+  id           Int      @id @default(autoincrement())
+  fileURL      String
+  fileName     String?
+  taskId       Int
+  uploadedById Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  uploadedBy   User     @relation(fields: [uploadedById], references: [userId], onDelete: Cascade)
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  taskId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
+
