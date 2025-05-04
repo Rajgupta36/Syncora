@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -21,10 +20,7 @@
   }
 }
 
-
-
-
-:root  {
+:root {
   --background: 251 0% 95%;
   --foreground: 251 0% 0%;
   --card: 251 0% 90%;
@@ -46,7 +42,7 @@
   --ring: 251 77.7% 54.3%;
   --radius: 0.5rem;
 }
-.dark  {
+.dark {
   --background: 251 10% 5%;
   --foreground: 251 0% 90%;
   --card: 251 0% 0%;
@@ -68,5 +64,3 @@
   --ring: 251 77.7% 54.3%;
   --radius: 0.5rem;
 }
-
-

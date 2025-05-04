@@ -125,35 +125,34 @@ export interface Comment {
   user: User;
 }
 
-  
-  export enum projectStatus {
-    NOT_STARTED = 'Not Started',
-    PLANNING = 'Planning',
-    IN_PROGRESS = 'In Progress',
-    COMPLETED = 'Completed',
-  }
+export enum projectStatus {
+  NOT_STARTED = 'Not Started',
+  PLANNING = 'Planning',
+  IN_PROGRESS = 'In Progress',
+  COMPLETED = 'Completed',
+}
 
-  export enum Priority {
-    LOW = 'low',
-    MEDIUM = 'medium',
-    HIGH = 'high',
-  }
+export enum Priority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+}
 
-  export enum TaskStatus {
-    TODO = 'To Do',
-    IN_PROGRESS = 'In Progress',
-    BLOCKED = 'Blocked',
-    UNDER_REVIEW = 'Under Review',
-    COMPLETED = 'Completed',
-  }
+export enum TaskStatus {
+  TODO = 'To Do',
+  IN_PROGRESS = 'In Progress',
+  BLOCKED = 'Blocked',
+  UNDER_REVIEW = 'Under Review',
+  COMPLETED = 'Completed',
+}
 
-  export enum TeamMemberRole {
-    OWNER = "OWNER",
-    ADMIN = "ADMIN",
-    MEMBER = "MEMBER",
-    VIEWER = "VIEWER",
-  }
-  
+export enum TeamMemberRole {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+  VIEWER = 'VIEWER',
+}
+
 export interface ApiError {
   data?: { error?: string };
   error?: string;

@@ -1,13 +1,11 @@
-"use client";
-import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { Bell, CalendarDays, ChevronDown, Search } from "lucide-react";
-import React, { useState } from "react";
-import { logOut } from "@/state/authSlice";
-import { useRouter } from "next/navigation";
-import { useLogoutMutation } from "@/state/api";
-import Image from "next/image";
-
-
+'use client';
+import { useAppDispatch, useAppSelector } from '@/app/redux';
+import { Bell, CalendarDays, ChevronDown, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { logOut } from '@/state/authSlice';
+import { useRouter } from 'next/navigation';
+import { useLogoutMutation } from '@/state/api';
+import Image from 'next/image';
 
 function Navbar() {
   const router = useRouter();
@@ -19,7 +17,7 @@ function Navbar() {
   const handleLogout = () => {
     dispatch(logOut());
     logout();
-    router.push("/");
+    router.push('/');
   };
   return (
     <div className="flex items-center justify-between h-16 py-5 px-10 md:px-8 w-full border-b border-[#d5d5d5]">

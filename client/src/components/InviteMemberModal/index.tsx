@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import Modal from "../Modal";
-import Select from "react-select";
+import React, { useState } from 'react';
+import Modal from '../Modal';
+import Select from 'react-select';
 import {
   useAddTeamMemberMutation,
   useGetProjectByIdQuery,
   useGetProjectTeamMembersQuery,
   useGetUsersQuery,
-} from "@/state/api";
-import { ApiError, TeamMemberRole, User } from "@/app/types/types";
-import { useAppSelector } from "@/app/redux";
-import { Trash } from "lucide-react";
-import { useParams } from "next/navigation";
-import { Avatar } from "@mui/material";
+} from '@/state/api';
+import { ApiError, TeamMemberRole, User } from '@/app/types/types';
+import { useAppSelector } from '@/app/redux';
+import { Trash } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { Avatar } from '@mui/material';
 
 type Props = {
   isOpen: boolean;
@@ -34,7 +34,7 @@ export default function InviteMemberModal({ isOpen, onClose }: Props) {
   });
 
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { data: users, isLoading } = useGetUsersQuery();
   const [selectedUsers, setSelectedUsers] = useState<userOption[]>([]);
@@ -55,13 +55,13 @@ export default function InviteMemberModal({ isOpen, onClose }: Props) {
 
         if (teamMemberError) {
           setError(teamMemberError.data.message);
-          setTimeout(() => setError(""), 5000);
+          setTimeout(() => setError(''), 5000);
         }
       } catch (err: unknown) {
-        const error  = err as ApiError;
-        setError(error.data?.error || "An error occurred");
-        setTimeout(() => setError(""), 5000);
-        setError("");
+        const error = err as ApiError;
+        setError(error.data?.error || 'An error occurred');
+        setTimeout(() => setError(''), 5000);
+        setError('');
       }
     }
     setSuccess(true);
@@ -71,14 +71,13 @@ export default function InviteMemberModal({ isOpen, onClose }: Props) {
   const getRoleBadgeColors = (role: string): string => {
     switch (role) {
       case TeamMemberRole.OWNER:
-        return "bg-primary-600 text-primary-600 bg-opacity-20";
+        return 'bg-primary-600 text-primary-600 bg-opacity-20';
       case TeamMemberRole.ADMIN:
-        return "bg-orange-500 text-orange-500 bg-opacity-20";
+        return 'bg-orange-500 text-orange-500 bg-opacity-20';
       default:
-        return "bg-gray-400 text-gray-400 bg-opacity-20";
+        return 'bg-gray-400 text-gray-400 bg-opacity-20';
     }
   };
-  
 
   return (
     <Modal title="Invite Member" isOpen={isOpen} onClose={onClose}>
@@ -180,16 +179,16 @@ export default function InviteMemberModal({ isOpen, onClose }: Props) {
                     className="flex items-center justify-between w-1/2"
                   >
                     <div className="flex items-center gap-x-4">
-                    <Avatar
-                      key={teamMember.user.userId}
-                      src={teamMember.user.profilePictureUrl}
-                      alt={teamMember.user.username}
-                      className="w-4 h-4"
-                    />
+                      <Avatar
+                        key={teamMember.user.userId}
+                        src={teamMember.user.profilePictureUrl}
+                        alt={teamMember.user.username}
+                        className="w-4 h-4"
+                      />
 
-                    <div className="text-sm text-secondary-950">
-                      {teamMember.user.username}
-                    </div>
+                      <div className="text-sm text-secondary-950">
+                        {teamMember.user.username}
+                      </div>
                     </div>
                     <span
                       className={`inline-flex items-center px-3 py-1 rounded-full bg-opacity-10 text-xs font-medium ${getRoleBadgeColors(
@@ -223,7 +222,9 @@ export default function InviteMemberModal({ isOpen, onClose }: Props) {
           <button
             type="submit"
             className={`w-full rounded text-lg bg-primary-600 text-white p-2 shadow-sm ${
-              isLoading && selectedUsers.length === 0 ? "opacity-40 cursor-not-allowed" : ""
+              isLoading && selectedUsers.length === 0
+                ? 'opacity-40 cursor-not-allowed'
+                : ''
             }`}
             disabled={isLoading || selectedUsers.length === 0}
           >

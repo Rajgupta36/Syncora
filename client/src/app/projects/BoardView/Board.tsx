@@ -1,35 +1,40 @@
-"use client";
-import React, { useState } from "react";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider, DragSourceMonitor, DropTargetMonitor, useDrag, useDrop } from "react-dnd";
-import { Task, TaskStatus } from "../../types/types";
-import { Ellipsis, MessageSquare, Paperclip, Plus } from "lucide-react";
+'use client';
+import React, { useState } from 'react';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import {
+  DndProvider,
+  DragSourceMonitor,
+  DropTargetMonitor,
+  useDrag,
+  useDrop,
+} from 'react-dnd';
+import { Task, TaskStatus } from '../../types/types';
+import { Ellipsis, MessageSquare, Paperclip, Plus } from 'lucide-react';
 import {
   useDeleteTaskMutation,
   useGetTaskAssigneesQuery,
   useUpdateTaskStatusMutation,
-} from "@/state/api";
-import { Avatar, AvatarGroup } from "@mui/material";
-import { useDispatch } from "react-redux";
+} from '@/state/api';
+import { Avatar, AvatarGroup } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import {
   setSelectedTask,
   toggleTaskDetailsModalOpen,
-} from "@/state/globalSlice";
+} from '@/state/globalSlice';
 
 type Props = {
   id: string;
   tasks: Task[] | undefined;
   setIsNewTaskModalOpen: (isOpen: boolean) => void;
 };
-const taskStatus = ["To Do", "In Progress", "Under Review", "Completed"];
-export default function Board({ id, setIsNewTaskModalOpen,tasks }: Props) {
+const taskStatus = ['To Do', 'In Progress', 'Under Review', 'Completed'];
+export default function Board({ id, setIsNewTaskModalOpen, tasks }: Props) {
   const [updateTaskStatus] = useUpdateTaskStatusMutation();
 
   const moveTask = (taskId: string, status: TaskStatus) => {
     updateTaskStatus({ taskId, status });
   };
 
-  
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
@@ -59,7 +64,7 @@ const TaskColumn = ({
   setIsNewTaskModalOpen,
 }: TaskColumnProps) => {
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: "task",
+    accept: 'task',
     drop: (item: { id: string }) => moveTask(item.id, status),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: !!monitor.isOver(),
@@ -68,32 +73,32 @@ const TaskColumn = ({
 
   const taskCount = tasks.filter(
     (task) =>
-      task.status?.toLowerCase().replace(" ", "").replace("_", "") ===
-      status.toLowerCase().replace(" ", "").replace("_", "")
+      task.status?.toLowerCase().replace(' ', '').replace('_', '') ===
+      status.toLowerCase().replace(' ', '').replace('_', '')
   ).length;
   const statusColor =
-    status === "To Do"
-      ? "bg-green-400"
-      : status === "In Progress"
-      ? "bg-blue-400"
-      : status === "Under Review"
-      ? "bg-yellow-400"
-      : "bg-red-400";
+    status === 'To Do'
+      ? 'bg-green-400'
+      : status === 'In Progress'
+        ? 'bg-blue-400'
+        : status === 'Under Review'
+          ? 'bg-yellow-400'
+          : 'bg-red-400';
   const borderColor =
-    status === "To Do"
-      ? "border-green-400"
-      : status === "In Progress"
-      ? "border-blue-400"
-      : status === "Under Review"
-      ? "border-yellow-400"
-      : "border-red-400";
+    status === 'To Do'
+      ? 'border-green-400'
+      : status === 'In Progress'
+        ? 'border-blue-400'
+        : status === 'Under Review'
+          ? 'border-yellow-400'
+          : 'border-red-400';
   return (
     <div
       ref={(instance) => {
         drop(instance);
       }}
       className={`bg-neutral-100 rounded-tl-2xl rounded-tr-2xl w-full transition-colors duration-200 ${
-        isOver ? "bg-neutral-200" : ""
+        isOver ? 'bg-neutral-200' : ''
       }`}
     >
       {/* Column header */}
@@ -107,7 +112,7 @@ const TaskColumn = ({
             {taskCount}
           </div>
         </div>
-        {status === "To Do" && (
+        {status === 'To Do' && (
           <button
             className="flex justify-center items-center h-5 w-5 rounded-full bg-neutral-200"
             onClick={() => setIsNewTaskModalOpen(true)}
@@ -119,23 +124,20 @@ const TaskColumn = ({
       {/* Task cards */}
       <div
         className={`flex flex-col gap-4 p-4 min-h-[200px] ${
-          isOver ? "opacity-50" : ""
+          isOver ? 'opacity-50' : ''
         }`}
       >
-        {tasks.filter((task) => task.status === status)
+        {tasks
+          .filter((task) => task.status === status)
           .map((task) => (
-            <TaskCard key={task.id} task={task}/>
+            <TaskCard key={task.id} task={task} />
           ))}
       </div>
     </div>
   );
 };
 
-const TaskCard = ({
-  task,
-}: {
-  task: Task;
-}) => {
+const TaskCard = ({ task }: { task: Task }) => {
   const [isTaskOptionsOpen, setIsTaskOptionsOpen] = useState(false);
 
   const numberOfComments = (task.comments && task.comments.length) || 0;
@@ -148,33 +150,32 @@ const TaskCard = ({
   const { data: taskAssignees } = useGetTaskAssigneesQuery({
     taskId: String(task.id),
   });
-  
+
   const handleOpenTaskDetails = () => {
     dispatch(setSelectedTask(task));
     dispatch(toggleTaskDetailsModalOpen());
   };
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: "task",
+    type: 'task',
     item: { id: task.id },
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
   const priorityColorMap = {
-    low: "bg-green-400 bg-opacity-20 text-green-400",
-    medium: "bg-orange-400 bg-opacity-20 text-orange-400",
-    high: "bg-red-500 bg-opacity-20 text-red-500",
+    low: 'bg-green-400 bg-opacity-20 text-green-400',
+    medium: 'bg-orange-400 bg-opacity-20 text-orange-400',
+    high: 'bg-red-500 bg-opacity-20 text-red-500',
   };
 
-  
   return (
     <div
       ref={(instance) => {
         drag(instance);
       }}
       className={`flex flex-col gap-y-2 bg-white shadow rounded-md mb-4 p-4 cursor-move transition-all duration-200 ${
-        isDragging ? " scale-105 shadow-lg rotate-3" : "scale-100"
+        isDragging ? ' scale-105 shadow-lg rotate-3' : 'scale-100'
       }`}
     >
       <div className="flex justify-between items-center">

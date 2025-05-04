@@ -1,6 +1,6 @@
-import { Task } from "@/app/types/types";
-import { createSlice } from "@reduxjs/toolkit";
-import { clear } from "console";
+import { Task } from '@/app/types/types';
+import { createSlice } from '@reduxjs/toolkit';
+import { clear } from 'console';
 
 interface initialStateType {
   isSidebarOpen: boolean;
@@ -17,7 +17,7 @@ const initialState: initialStateType = {
 };
 
 export const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState,
   reducers: {
     toggleSidebarOpen: (state) => {
@@ -30,7 +30,7 @@ export const globalSlice = createSlice({
       state.isModalOpen = !state.isModalOpen;
     },
     toggleTaskDetailsModalOpen: (state) => {
-      state.isTaskDetailsModalOpen = true ;
+      state.isTaskDetailsModalOpen = true;
     },
     toggleTaskDetailsModalClose: (state) => {
       state.isTaskDetailsModalOpen = false;
@@ -39,9 +39,15 @@ export const globalSlice = createSlice({
     setSelectedTask: (state, action) => {
       state.task = action.payload;
     },
-    
   },
 });
 
-export const {toggleModal, toggleSidebarClose, toggleSidebarOpen, toggleTaskDetailsModalOpen, toggleTaskDetailsModalClose,setSelectedTask } = globalSlice.actions;
+export const {
+  toggleModal,
+  toggleSidebarClose,
+  toggleSidebarOpen,
+  toggleTaskDetailsModalOpen,
+  toggleTaskDetailsModalClose,
+  setSelectedTask,
+} = globalSlice.actions;
 export default globalSlice.reducer;

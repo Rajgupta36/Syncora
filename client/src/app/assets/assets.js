@@ -1,3 +1,3 @@
 import logo from './logo.svg';
 
-export const assets ={ logo  };
+export const assets = { logo };

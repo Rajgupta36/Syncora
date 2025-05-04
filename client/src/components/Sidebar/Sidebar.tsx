@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import { assets } from "@/app/assets/assets";
+'use client';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { assets } from '@/app/assets/assets';
 import {
   ChevronsRight,
   Ellipsis,
@@ -12,17 +12,16 @@ import {
   Plus,
   Settings,
   Users,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useDeleteProjectMutation, useGetProjectsQuery } from "@/state/api";
-import { useAppDispatch, useAppSelector } from "@/app/redux";
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useDeleteProjectMutation, useGetProjectsQuery } from '@/state/api';
+import { useAppDispatch, useAppSelector } from '@/app/redux';
 import {
   toggleModal,
   toggleSidebarClose,
   toggleSidebarOpen,
-} from "@/state/globalSlice";
-
+} from '@/state/globalSlice';
 
 const Sidebar = () => {
   const { data: projects } = useGetProjectsQuery();
@@ -31,23 +30,23 @@ const Sidebar = () => {
   return (
     <div
       className={`${
-        isSidebarOpen ? "w-60" : "w-16"
+        isSidebarOpen ? 'w-60' : 'w-16'
       } transition-all duration-300 fixed h-full bg-white  flex flex-col gap-y-4 justify-start items-center overflow-x-auto border-r border-[#DBDBDB]`}
     >
       {/* TOP LOGO */}
       <div
         className={`w-full h-16 flex  items-center border-b border-[#DBDBDB] px-4 ${
-          isSidebarOpen ? "justify-between" : "justify-center"
+          isSidebarOpen ? 'justify-between' : 'justify-center'
         }`}
       >
         {isSidebarOpen! ? (
           <Image src={assets.logo} alt="logo" width={100} />
         ) : (
-          ""
+          ''
         )}
         <div
           className={`text-gray-500 cursor-pointer transform transition-transform duration-300 ${
-            isSidebarOpen ? "rotate-180" : ""
+            isSidebarOpen ? 'rotate-180' : ''
           }`}
           onClick={() =>
             dispatch(isSidebarOpen ? toggleSidebarClose() : toggleSidebarOpen())
@@ -95,7 +94,7 @@ const Sidebar = () => {
       <div className="w-full flex flex-col gap-y-2 px-4">
         <div
           className={`flex ${
-            isSidebarOpen ? "justify-between" : "justify-center"
+            isSidebarOpen ? 'justify-between' : 'justify-center'
           } items-center `}
         >
           {isSidebarOpen && (
@@ -142,17 +141,17 @@ const SidebarItem = ({
 }: SidebarItemProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+    pathname === href || (pathname === '/' && href === '/dashboard');
   return (
     <Link href={href}>
       <div
         className={`flex gap-4 items-center ${
-          isSidebarOpen ? "justify-start" : "justify-center"
+          isSidebarOpen ? 'justify-start' : 'justify-center'
         } w-full hover:bg-[#5130e514] rounded-md p-2  cursor-pointer transition-all duration-75 ${
-          isActive ? "bg-[#5130e514] text-primary-600" : ""
+          isActive ? 'bg-[#5130e514] text-primary-600' : ''
         }`}
       >
-        <Icon size={20} className={`${isActive ? "fill-primary-600" : ""}`} />
+        <Icon size={20} className={`${isActive ? 'fill-primary-600' : ''}`} />
         {isSidebarOpen && <p className="text-md font-medium ">{title}</p>}
       </div>
     </Link>
@@ -180,12 +179,12 @@ const ProjectItem = ({
     <Link href={href}>
       <div
         className={`relative flex  items-center  w-full hover:bg-[#5130e514] hover:text-gray-950 rounded-md p-2 cursor-pointer ${
-          isActive ? "bg-[#5130e514] text-gray-950" : ""
+          isActive ? 'bg-[#5130e514] text-gray-950' : ''
         }`}
       >
         <div
           className={`flex items-center gap-x-4 w-full ${
-            isSidebarOpen ? "justify-between" : "justify-center"
+            isSidebarOpen ? 'justify-between' : 'justify-center'
           }`}
         >
           <div className={`block w-2 h-2 rounded-full ${color}`}></div>
@@ -193,7 +192,7 @@ const ProjectItem = ({
             <>
               <p
                 className={`text-sm font-medium text-gray-500 truncate line-clamp-1 flex-1 w-40 ${
-                  isActive ? "text-primary-600" : ""
+                  isActive ? 'text-primary-600' : ''
                 }`}
               >
                 {title}
@@ -201,7 +200,7 @@ const ProjectItem = ({
               <Ellipsis
                 size={20}
                 className={`text-gray-500  ${
-                  isActive ? "text-primary-600" : ""
+                  isActive ? 'text-primary-600' : ''
                 }`}
                 onClick={() => setIsProjectOptionsOpen(!isProjectOptionsOpen)}
               />
@@ -212,11 +211,13 @@ const ProjectItem = ({
           <div className=" z-50 absolute  top-7 right-0 w-2/3 p-1 bg-white rounded-md shadow-md flex flex-col gap-y-1">
             <p
               className="text-sm cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-300 hover:bg-opacity-40 rounded-md px-2 py-1 w-full"
-              onClick={()=>deleteProject({projectId: projectId})}
+              onClick={() => deleteProject({ projectId: projectId })}
             >
               Delete
             </p>
-            <p className="text-sm  text-gray-500 hover:text-gray-950 hover:bg-gray-100 rounded-md px-2 py-1 cursor-pointer">Open</p>
+            <p className="text-sm  text-gray-500 hover:text-gray-950 hover:bg-gray-100 rounded-md px-2 py-1 cursor-pointer">
+              Open
+            </p>
           </div>
         )}
       </div>

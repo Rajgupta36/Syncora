@@ -1,8 +1,7 @@
-"use client";
-import React from "react";
-import { useAppSelector } from "../redux";
-import Image from "next/image";
-
+'use client';
+import React from 'react';
+import { useAppSelector } from '../redux';
+import Image from 'next/image';
 
 const ProfilePage = () => {
   const user = useAppSelector((state) => state.auth.user);
